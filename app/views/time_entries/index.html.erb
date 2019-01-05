@@ -1,0 +1,19 @@
+<% content_for :body do %>
+	<% content_tag :h3, @project.name %><br/>
+	<table>
+		<tr>
+			<th>Time spent (hours)</th>
+			<th>Date</th>
+			<th>Activity</th>
+			<th>Comment</th>
+		</tr>
+		<%= @te.each do |t| %>
+			<tr>
+				<%= content_tag :td, t.hours %>
+				<%= content_tag :td, t.spent_on.to_s %>
+				<%= content_tag :td, t.TimeEntryActivity.name %>
+				<%= content_tag :td, t.comment[0..40] + (t.comment.length > 40? "...":"") %>
+			</tr>
+		<% end %>
+	</table>
+<% end %>

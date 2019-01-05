@@ -1,0 +1,9 @@
+<% content_for :body do %>
+<pre>
+	Spent: <%= @te.hours %> hour(s)
+	Logged at: <%= @te.spent_on.to_s %>
+	Task: <%= @w.name %>
+	Comment: <%= @te.comment %>
+</pre>
+
+<% end %>

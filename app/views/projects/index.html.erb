@@ -1,0 +1,6 @@
+<% content_for :body do %>
+  <%= @projects.count =%> project(s) exist. <br/>
+  <%= @projects.each do |p| %>
+    <%= content_tag :a, p.to_s, href: "/projects/#{p.id}" %><br/>
+  <% end %>
+<% end %>

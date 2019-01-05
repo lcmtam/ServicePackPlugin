@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= get_title(yield :title) %></title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <header><h1>Service Pack R&D Project</h1></header>
+    <nav><a href="/">Back to Index</a><br/>
+    <%= link_to  "Back to Project Page", project_path(params[:project_id]) %></nav>
+    <div class="err-list">
+      <%= flash.each do |k, v| %>
+        <% k %> <% v %>
+      <% end %>
+    </div>
+    <section><%= yield :body %></section>
+  </body>
+</html>

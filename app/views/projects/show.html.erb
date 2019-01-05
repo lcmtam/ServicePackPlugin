@@ -1,0 +1,28 @@
+<% content_for :body do %>
+  Project Id: <%= @project.id =%><br/>
+  Name: <%= @project.name %>
+  <%= form_for @project do |f| =%>
+    <label for="SPenabled">Using SP:</label>
+    <input type="checkbox" name="SPenabled" <%= @r?"checked":"" %>/><br/>
+    <%= f.submit =%>
+  <% end %>
+<% end %>
+<% content_for :extra do %>
+  <%= link_to "See all timelogs", project_time_entries_path(@project.id) %>
+  <h2>Enumerations</h2>
+  <table id="#enum">
+    <tr>
+      <th>Name</td>
+      <th>Active</td>
+      <th>Control</td> <!-- config columns -->
+    </tr>
+    <% @enum.each do |t|%>
+      <tr>
+        <td><%= t.name %></td>
+        <td><%= (t.active ? "&#x2713" : "<strong>X</strong>").html_safe %></td>
+        <td>config here! &nbsp;</td> <!-- config columns -->
+      </tr>
+    <% end %>
+  </table>
+  <end>
+<% end %>

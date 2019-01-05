@@ -1,0 +1,22 @@
+<%= content_for :body do %>
+  <%= form_for @te do |f| %>
+    <%= f.label :hours, "Time spent in hours: " %>
+    <%= f.number_field :hours, min: 0, step: "any" %>
+    <br/>
+    <%= f.label :spent_on, "Logged at: " %>
+    <%= f.text_field :spent_on %>
+    <br/>
+    <%= f.label :activity_id, "Activity: " %>
+    <%= f.select :activity_id do %>
+      <%= @enums.each do |e| %>
+        <%= content_tag(:option, e.name, value: e.id) %>
+      <% end %>
+    <% end %>
+    <br/>
+    <%= f.label :comment, "Comment: " %>
+    <br/>
+    <%= f.text_area :comment %>
+    <br/>
+    <%= f.submit %>
+  <% end %>
+<% end %>

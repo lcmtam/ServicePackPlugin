@@ -1,0 +1,6 @@
+<% content_for :body do %>
+  <%= @projects.count =%> project(s) exist that use SP. <br/>
+  <%= @projects.each do |p| %>
+    <%= p.to_s %><br/>
+  <% end %>
+<% end %>
