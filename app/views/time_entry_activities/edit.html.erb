@@ -1,0 +1,11 @@
+<%= content_for :body do %>
+	<%= form_for @tea do |f| %>
+		<%= f.label :name, "Activity name:" %>
+		<%= f.text_field :name %>
+		<br/>
+		<%= f.label :active, "Active?" %>
+		<%= f.check_box :active %>
+		<br/>
+		<%= f.submit "Edit Activity" %>
+	<% end %>
+<% end %>

@@ -1,0 +1,8 @@
+<%= content_for :body do %>
+	Name: <%= @spp.name %><br/>
+	Effective date: <%= @spp.activation_date %><br/>
+	Expiration date: <%= @spp.expiration_date %><br/>
+	Capacity: <%= @spp.capacity.to_i %><br/>
+	Email warning threshold: <%= @spp.threshold2 %>%<br/>
+	Notification warning threshold: <%= @spp.threshold1 %>%<br/>
+<% end %>

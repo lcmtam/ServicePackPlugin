@@ -7,4 +7,5 @@ module DisplayHelper
       title + " | " + base_title
     end
   end
+  	
 end

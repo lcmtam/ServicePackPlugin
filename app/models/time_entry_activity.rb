@@ -1,6 +1,5 @@
 class TimeEntryActivity < Enumeration
-  has_many :TimeEntries, inverse_of: :TimeEntryActivity
-  belongs_to :Project
+  has_many :time_entries, inverse_of: :TimeEntryActivity
   validate :at_least_one_must_be_active # should be on superclass Enumeration
 
   def in_use?
@@ -14,7 +13,7 @@ class TimeEntryActivity < Enumeration
   private
     def at_least_one_must_be_active
       if(!@active)
-        if TimeEntryActivity.project(@project_id).active.empty?
+        if TimeEntryActivity.project(project_id).active.empty?
           errors[:base] << "Please activate this or other #{self.class.name} in your project"
         end
       end

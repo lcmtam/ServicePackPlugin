@@ -7,6 +7,7 @@
     <%= f.text_field :spent_on %>
     <br/>
     <%= f.label :activity_id, "Activity: " %>
+    <!-- searching for better ways -->
     <%= f.select :activity_id do %>
       <%= @enums.each do |e| %>
         <%= content_tag(:option, e.name, value: e.id) %>

@@ -1,0 +1,23 @@
+<%= content_for :body do %>
+	<%= form_for [@project, @sp] do |f| %>
+		<%= f.label :name, "Name of Service Pack: " %>
+		<%= f.text_field :name %>
+		<br/>
+		<%= f.label :activation_date, "Effective date: " %>
+    	<%= f.text_field :activation_date %>
+    	<br/>
+		<%= f.label :expiration_date, "Expiration date: " %>
+    	<%= f.text_field :expiration_date %>
+    	<br/>
+    	<%= f.label :capacity, "Total units available for all activity: " %>
+    	<%= f.number_field :capacity, min: 0, step: "1000" %> units
+        <br/>
+    	<%= f.label :threshold2, "First warning threshold: " %>
+    	<%= f.number_field :threshold2, min: 0, max: 100, step: "1" %> %
+    	<br/>
+    	<%= f.label :threshold1, "Second warning threshold: " %>
+    	<%= f.number_field :threshold1, min: 0, max: 90, step: "1" %> %
+    	<br/>
+    	<%= f.submit "Create Service Pack" %>
+	<% end %>
+<% end %>

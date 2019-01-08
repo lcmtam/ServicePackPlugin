@@ -1,0 +1,9 @@
+/log/*
+*config/database.yml
+*config/environment.rb
+*config/environments/*
+*config/puma.rb
+*config/secrets.yml
+*tmp/*
+/db/development.sqlite3
+**DS_Store

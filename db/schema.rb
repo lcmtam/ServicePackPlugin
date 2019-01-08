@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 7) do
 
   create_table "enumerations", force: :cascade do |t|
     t.string "name"
@@ -37,9 +37,10 @@ ActiveRecord::Schema.define(version: 6) do
     t.float "used"
     t.date "activation_date"
     t.date "expiration_date"
-    t.date "deactivation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "threshold1"
+    t.integer "threshold2"
     t.index ["name"], name: "index_service_packs_on_name", unique: true
   end
 

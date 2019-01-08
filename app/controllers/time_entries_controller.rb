@@ -12,12 +12,10 @@ class TimeEntriesController < ApplicationController
       @enums = TimeEntryActivity.project(params[:project_id]).active
       #byebug
       ##byebug
-=begin
-      if enums.empty?
+      if @enums.empty?
         flash[:error] = "No activity is set!"
         redirect_to '/tea'
       end
-=end
     end
   end
 
@@ -100,12 +98,12 @@ class TimeEntriesController < ApplicationController
       # @te = Project.time_entries.create(@pa)
      @te.update(@pa)
       #byebug
-      if !@te.save!
+      if !@te.save
         flash.now[:error] = @te.errors.full_messages
-        redirect_to action: 'new'
+        render action: 'edit', id: params[:project_id]
       else
         flash[:success] = "Log edit successfully"
-        redirect_to action: 'show', id: @te.id, status: 200
+        redirect_to action: 'show', id: @te[:id], status: 200
       end
     end
   end

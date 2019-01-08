@@ -13,4 +13,13 @@ module ModuleAssignmentHelper
   def SPdisabled?(project_id)
     ModuleAssignment.SPenabled?(project_id).empty?
   end
+  def ProjectsHasActivatedSP # use with project
+    @sql = <<-SQL
+    SELECT * FROM projects
+    INNER JOIN module_assignments
+    ON module_assignments.project_id == projects.id
+    SQL
+    #byebug
+    Project.find_by_sql(@sql);
+  end
 end

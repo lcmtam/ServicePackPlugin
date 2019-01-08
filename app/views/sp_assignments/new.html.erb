@@ -1,0 +1,11 @@
+<% content_for :body do %>
+	<% form_for [@project, @spa] do |f| %>
+		Governing project: <%= @project.name %><br/>
+		Service Pack to assign:
+		<%= f.select :service_packs_id do %>
+      		<%= @sp.each do |e| %>
+        		<%= content_tag(:option, e.name, value: e.id) %>
+      		<% end %>
+    	<% end %>
+    <% end %>
+<% end %>

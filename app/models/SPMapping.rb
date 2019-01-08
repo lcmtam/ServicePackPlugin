@@ -1,5 +1,5 @@
 class SPMapping < ApplicationRecord
-  belongs_to :service_pack, inverse_of: 'ServicePack'
+  belongs_to :service_pack, class_name: 'ServicePacks', foreign_key: 'service_packs_id'
   belongs_to :activity, class_name 'TimeEntryActivity'
 
   validate :ServicePack_id, presence: { message: "No Service Pack is assorted" }, uniqueness: { scope :activity_id }

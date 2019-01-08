@@ -33,6 +33,7 @@ class ProjectsController < ApplicationController
   end
 
   def filterSP
+    # @projects = ProjectsHasActivatedSP
     @sql = <<-SQL
     SELECT * FROM projects
     INNER JOIN module_assignments
