@@ -1,10 +1,10 @@
 module ModuleAssignmentHelper
-  def enableSP(project_id)
+  def EnableSP(project_id)
     @vis = ModuleAssignment.new
     @vis.project_id = @project.id
     @vis.save
   end
-  def disableSP(project_id)
+  def DisableSP(project_id)
     ModuleAssignment.find_by("project_id = ?", project_id).destroy
   end
   def SPenabled?(project_id)

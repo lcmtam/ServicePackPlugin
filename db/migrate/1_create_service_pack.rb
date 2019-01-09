@@ -1,4 +1,4 @@
-class CreateServicePack < ActiveRecord::Migration[5.2]
+class CreateServicePack < ActiveRecord::Migration[5.1]
   def change
     create_table :service_packs do |t|
       t.string :name, index: {unique: true}
@@ -21,7 +21,7 @@ class CreateServicePack < ActiveRecord::Migration[5.2]
 end
 
 # last resort
-class CreateServicePackLink < ActiveRecord::Migration[5.2]
+class CreateServicePackLink < ActiveRecord::Migration[5.1]
   def change
     create_table :sp_time_entries do |t|
       t.references :time_entries

@@ -8,9 +8,9 @@ class SpAssignmentsController < ApplicationController
 		end
 		if SPdisabled?(@project.id)
 			flash[:error] = "Please activate Service Pack module for this project!"
-			redirect_to "/projects/", id: @project.id
+			redirect_to "/projects/", id: @project.id and return
 		end
-		@sp = ServicePack.where("activation_date >= ?", Date.today)
+		@sp = ServicePack.where("expiration_date >= ?", Date.today)
 		#byebug
 		@spa = SpAssignment.new
 	end
@@ -25,7 +25,7 @@ class SpAssignmentsController < ApplicationController
 			flash[:error] = "Please activate Service Pack module for this project!"
 			redirect_to "/projects/", id: @project.id and return
 		end
-
+		#todo: all mapping MUST be present for successful aasignment.
 	end
 
 	private

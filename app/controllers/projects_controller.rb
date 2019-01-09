@@ -33,7 +33,8 @@ class ProjectsController < ApplicationController
   end
 
   def filterSP
-    # @projects = ProjectsHasActivatedSP
+    @projects = ProjectsHasActivatedSP
+=begin
     @sql = <<-SQL
     SELECT * FROM projects
     INNER JOIN module_assignments
@@ -42,6 +43,7 @@ class ProjectsController < ApplicationController
     #byebug
     @projects = Project.find_by_sql(@sql);
   end
+=end
 
   def show
     @project = Project.find_by(id: params[:id])
@@ -70,11 +72,11 @@ class ProjectsController < ApplicationController
     if @r ^ params[:SPenabled] # state change
       if params[:SPenabled]
         #byebug
-        enableSP(params[:id])
+        EnableSP(params[:id])
         flash[:notice] = "Project #{@project.identifier} has SP enabled"
       else
         #byebug
-        disableSP(params[:id])
+        DisableSP(params[:id])
         flash[:notice] = "SP is disabled for project #{@project.identifier}"
       end
     else

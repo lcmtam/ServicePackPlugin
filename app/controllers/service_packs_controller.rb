@@ -1,5 +1,5 @@
 class ServicePacksController < ApplicationController
-	include ModuleAssignmentHelper
+	# include ModuleAssignmentHelper
 =begin
 	def new
 		@project = Project.find_by(id: params[:project_id])
@@ -23,18 +23,18 @@ class ServicePacksController < ApplicationController
 		@sp = ServicePack.new(@pa)
 		byebug
 		if !@sp.save!
-			flash.now[:error] = @pa.errors[:base]
+			flash.now[:error] = @sp.errors[:base]
 			render action: 'new'
 		else
 			flash[:success] = "Service Pack creation successful"
-			redirect_to "/service_packs", id: @sp.id
+			redirect_to service_pack_path(@sp.id)
 		end
 		
 	end
 	def show
 		@spp = ServicePack.find_by(id: params[:id])
 		if(!@spp)
-			flash[:error] = "Service Pack not found"
+			flash[:error] = "Service Pack not found or not created yet"
 			redirect_to "/projects"
 		end
 	end

@@ -14,7 +14,7 @@ class TimeEntriesController < ApplicationController
       ##byebug
       if @enums.empty?
         flash[:error] = "No activity is set!"
-        redirect_to '/tea'
+        redirect_to new_project_time_entry_activity_path(@project.id)
       end
     end
   end

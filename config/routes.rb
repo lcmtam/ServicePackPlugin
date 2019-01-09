@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+    #default routes
+  get '/begone', to: "boots#begone"
+  get '/', to: "boots#dummy"
+  root "boots#dummy"
   
   get 'projects/filterSP', to: 'projects#filterSP'
   resources :projects, only: [:new, :create, :index, :show, :update] do
@@ -12,8 +16,5 @@ Rails.application.routes.draw do
   resources :service_packs, only: [:new, :create, :show]
   resources :sp_assignments, only: [:new, :create]
   
-  #default routes
-  get '/begone', to: "boots#begone"
-  get '/', to: "boots#dummy"
-  root "boots#dummy"
+
 end
