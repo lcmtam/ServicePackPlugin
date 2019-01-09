@@ -42,8 +42,8 @@ class ProjectsController < ApplicationController
     SQL
     #byebug
     @projects = Project.find_by_sql(@sql);
-  end
 =end
+  end
 
   def show
     @project = Project.find_by(id: params[:id])
