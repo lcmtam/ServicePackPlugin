@@ -1,6 +1,7 @@
 class TimeEntryActivity < Enumeration
   has_many :time_entries, inverse_of: :TimeEntryActivity
-  validate :at_least_one_must_be_active # should be on superclass Enumeration
+  belongs_to :project, optional: true, default: nil
+  # validate :at_least_one_must_be_active # should be on superclass Enumeration
 
   def in_use?
     #raise NotImplementedError
@@ -9,6 +10,7 @@ class TimeEntryActivity < Enumeration
 
   scope :project, ->(id) {where(project_id: id)}
   scope :active, ->{where(active: true)}
+  scope :shared, ->{where(parent_id: nil)}
 
   private
     def at_least_one_must_be_active

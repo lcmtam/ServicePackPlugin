@@ -1,5 +1,5 @@
 class SpAssignment < ApplicationRecord
-  self.table_name = "sp_assign"
+  self.table_name = "sp_assign" # whoops
   belongs_to :project
   belongs_to :service_pack
 

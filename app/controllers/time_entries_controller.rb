@@ -39,7 +39,7 @@ class TimeEntriesController < ApplicationController
       #byebug
       if !@te.save!
         flash.now[:error] = @te.errors.full_messages
-        redirect_to action: 'new'
+        render action: 'new', id: params[:project_id]
       else
         flash[:success] = "Logged complete"
         redirect_to action: 'show', id: @te.id, status: 200
