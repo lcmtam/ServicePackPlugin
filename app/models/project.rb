@@ -1,6 +1,7 @@
 class Project < ActiveRecord::Base
+  include EnumsManager
   has_many :time_entries, inverse_of: :project
-  has_many :time_entry_activities, inverse_of: :project
+  has_many :time_entry_activities#, inverse_of: :project
   validates :name, presence: true
   validates :identifier, presence: true, uniqueness: {case_sensitive: false}
   def to_s
@@ -18,4 +19,5 @@ class Project < ActiveRecord::Base
     end
     return "success"
   end
+
 end

@@ -34,15 +34,6 @@ class ProjectsController < ApplicationController
 
   def filterSP
     @projects = ProjectsHasActivatedSP
-=begin
-    @sql = <<-SQL
-    SELECT * FROM projects
-    INNER JOIN module_assignments
-    ON module_assignments.project_id == projects.id
-    SQL
-    #byebug
-    @projects = Project.find_by_sql(@sql);
-=end
   end
 
   def show
@@ -54,7 +45,7 @@ class ProjectsController < ApplicationController
     else
       @r = SPenabled?(params[:id])
       #byebug
-      @enum = TimeEntryActivity.where(project_id: params[:id]).order(:id)
+      @enums = TimeEntryActivity.where(project_id: params[:id]).order(:id)
     end
   end
 

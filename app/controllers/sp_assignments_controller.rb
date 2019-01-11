@@ -25,7 +25,7 @@ class SpAssignmentsController < ApplicationController
 			flash[:error] = "Please activate Service Pack module for this project!"
 			redirect_to "/projects/", id: @project.id and return
 		end
-		#todo: all mapping MUST be present for successful aasignment.
+		#todo: all mapping MUST be present for successful assignment.
 	end
 
 	private

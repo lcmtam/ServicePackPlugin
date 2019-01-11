@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   root "boots#dummy"
   
   get 'projects/filterSP', to: 'projects#filterSP'
+  get 'admin/', to: 'admin#opis'
+  get 'admin/index', to: 'admin#index'
+  get 'admin/new', to: 'admin#new'
+  post 'admin/create', to: 'admin#create'
+
   resources :projects, only: [:new, :create, :index, :show, :update] do
     resources :time_entries, only: [:new, :create, :index]
     resources :time_entry_activities, only: [:new, :create]

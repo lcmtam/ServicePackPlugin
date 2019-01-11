@@ -1,0 +1,5 @@
+<% content_for :body do %>
+  <% @h.each do |_k, v| %>
+    <%= tag.h3 v.html_safe %>
+  <% end %>
+<% end %>
