@@ -1,19 +1,22 @@
 <% content_for :body do %>
-	<h2>Enumerations</h2>
-	<hr/>
-	<div class="table-container">
-	    <table id="enum">
-	        <tr>
-	          <th>Name</td>
-	          <th>Active</td>
-	          <th>Control</td> <!-- config columns -->
-	        </tr>
-	        <% @enums.each do |t|%>
-	          <tr>
-	            <td><%= t.name %></td>
-	            <td><%= (t.active ? "&#x2713" : "<strong>X</strong>").html_safe %></td>
-	            <td>config here! &nbsp;</td> <!-- delete columns -->
-	          </tr>
-	        <% end %>
-	      </table>
+  <h2>Activities</h2>
+  <a href="/admin/new">Create new activity</a>
+  <br/>
+  <br/>
+  <div class="table-container">
+      <table id="enum">
+          <tr>
+            <th>Name</td>
+            <th>Active</td>
+            <th>Control</td> <!-- config columns -->
+          </tr>
+          <% @enums.each do |t|%>
+            <tr>
+              <td><%= t.name %></td>
+              <td><%= (t.active ? "&#x2713" : "<strong>X</strong>").html_safe %></td>
+              <td>config here! &nbsp;</td> <!-- delete columns -->
+            </tr>
+          <% end %>
+      </table>
+  </div>
 <% end %>

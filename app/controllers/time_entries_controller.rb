@@ -9,9 +9,9 @@ class TimeEntriesController < ApplicationController
       redirect_to "/"
     else
       @time_entry = TimeEntry.new(project_id: @project.id)
-      @enums = TimeEntryActivity.project(params[:project_id]).active
-      #byebug
-      ##byebug
+      # @enums = TimeEntryActivity.project(params[:project_id]).active
+      # NEW UPDATE
+      @enums = @project.legit_activities
       if @enums.empty?
         flash[:error] = "No activity is set!"
         redirect_to new_project_time_entry_activity_path(@project.id)

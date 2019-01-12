@@ -1,0 +1,26 @@
+<% content_for :body do %>
+	<h2>Enumerations</h2>
+	<hr/>
+	<div class="table-container">
+	    <table id="enum">
+	        <tr>
+	          <th>Name</td>
+	          <th>Active</td>
+	          <th>Control</td> <!-- config columns -->
+	        </tr>
+	        <% @enums.each do |t|%>
+	        	<%= fields_for "enumerations[#{t.id}]", @project do |ff| %>
+		          <tr>
+		            <td><%= t.name %></td>
+		            <td><%= (t.active ? "&#x2713" : "<strong>X</strong>").html_safe %></td>
+		            <td>
+		            	<%= ff.check_box :active, checked: t.active %>
+		            	<% if !t.parent_id.nil? %>
+		            		<%= f.hidden_tag :parent_id, value: t.parent_id %>
+		            	<% end %>
+		            </td> <!-- delete columns -->
+		          </tr>
+		        <% end %>
+		     <% end %>
+	    </table>
+<% end %>

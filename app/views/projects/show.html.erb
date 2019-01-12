@@ -4,13 +4,13 @@
       Project Id: <%= @project.id =%><br/>
       Name: <%= @project.name %>
       <%= form_for @project do |f| =%>
-        <label for="SPenabled">Using SP:</label>
+        <label for="SPenabled">Use SP:</label>
         <input type="checkbox" name="SPenabled" <%= @r?"checked":"" %>/>
         <br/>
         <%= f.submit =%>
       <% end %>
     </div>
-    <% if SPenabled?(@project) %>
+    <% if sp_enabled?(@project) %>
       <div id="create-sp">
         <%= link_to "Create Service Pack", new_service_pack_path %><br/>
         <%= link_to "Assign Service Pack", new_project_sp_assignment_path(@project.id) %>

@@ -1,5 +1,6 @@
 class BootsController < ApplicationController
   def dummy
+    #byebug
     @h = Hash.new
     @h[:createPJ] = "<a href='/projects/new/'>Create a project</a>"
     @h[:indexPJ] = "<a href='/projects/'>List of projects </a>"

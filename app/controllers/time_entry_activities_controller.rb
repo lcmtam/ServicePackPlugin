@@ -39,7 +39,8 @@ class TimeEntryActivitiesController < ApplicationController
   def edit
     # find(params[:id]) also works as shorthand for primary key field
     # but it throws exception!
-    @tea = TimeEntryActivity.find_by(id: params[:id]) 
+    @tea = TimeEntryActivity.find_by(id: params[:id])
+    #byebug
     if @tea.nil?
       flash[:error] = "This activity has been deleted or not existed!"
       redirect_to '/'

@@ -1,7 +1,7 @@
 class TimeEntryActivity < Enumeration
   has_many :time_entries, inverse_of: :TimeEntryActivity
   belongs_to :project, optional: true, default: nil #allow_blank: true
-  # validate :at_least_one_must_be_active # should be on superclass Enumeration
+  # validate :at_least_one_must_be_active # old requirements
 
   def in_use?
     #raise NotImplementedError

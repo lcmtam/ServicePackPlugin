@@ -1,0 +1,30 @@
+<% content_for :body do %>
+	<h2>Enumerations</h2>
+	<hr/>
+	<div class="table-container">
+		<%= form_tag project_update_activities_path(@project.id), method: :put do %>
+		    <table id="enum">
+		        <tr>
+		          <th>Name</th>
+		          <th>Active</th>
+		          <th>Control</th> <!-- config columns -->
+		        </tr>
+
+			    <%= @enums.each do |enum|%>
+			    	<tr>
+				    	<td> <%= enum.name %></td>
+				    	<td><%= (enum.active ? "&#x2713" : "<strong>X</strong>").html_safe %> </td>
+				    	<td>
+				        	<%= fields_for "activities[#{enum.id}]", enum do |ff| %>
+				        		<%= ff.check_box :active,{},"true","false" %>
+	                  			<%= ff.hidden_field :parent_id, value: enum.id unless enum.parent_id %>
+	                  		<% end %>
+	                  	</td>
+                  	</tr>
+			    <% end %>
+		    </table>
+
+		    <%= submit_tag "Update activities" %>
+		<% end %>
+	</div>
+<% end %>

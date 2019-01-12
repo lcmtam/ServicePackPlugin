@@ -8,7 +8,7 @@ class TimeEntry < ApplicationRecord
   validates :project_id, presence: true
   validates :hours, presence: true, numericality: { greater_than_or_equal_to: 0}
   validates :comment, length: { maximum: 255}, allow_nil: true
-  validate :activity_project_belong_to_project_id
+  #validate :activity_project_belong_to_project_id
 
 
   private

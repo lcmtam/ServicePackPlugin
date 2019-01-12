@@ -1,4 +1,7 @@
+#require File.new('/develop/doit/app/helpers/module_assignment_helper.rb')
+
 class ProjectsController < ApplicationController
+  #autoload :ModuleAssignmentHelper, '/helpers/module_assignment_helper.rb'
   include ModuleAssignmentHelper
   layout 'project', only: [:show]
   def new
@@ -14,12 +17,15 @@ class ProjectsController < ApplicationController
       #byebug
       if params[:createSP]
         # redirect_to "ServicePack#new", status: 200
+=begin
         @vis = ModuleAssignment.new
         @vis.project_id = @project.id
-        flash[:notice] = "This project also use Service Pack"
+
         #byebug
         @v = @vis.save
-        byebug
+=end
+        enable_sp(@project.id)
+        flash[:notice] = "This project also use Service Pack"
       end
       redirect_to "/", status: 303
     else
@@ -33,7 +39,8 @@ class ProjectsController < ApplicationController
   end
 
   def filterSP
-    @projects = ProjectsHasActivatedSP
+    #@projects = ProjectsHasActivatedSP
+    @projects = projects_has_activated_sp
   end
 
   def show
@@ -43,7 +50,7 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project might be deleted or not created yet"
       redirect_to "/"
     else
-      @r = SPenabled?(params[:id])
+      @r = sp_enabled?(params[:id])
       #byebug
       @enums = TimeEntryActivity.where(project_id: params[:id]).order(:id)
     end
@@ -59,21 +66,47 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project might be deleted or not created yet"
       redirect_to "/"
     end
-    @r = SPenabled?(params[:id])
+    @r = sp_enabled?(params[:id])
     if @r ^ params[:SPenabled] # state change
       if params[:SPenabled]
         #byebug
-        EnableSP(params[:id])
+        enable_sp(params[:id])
         flash[:notice] = "Project #{@project.identifier} has SP enabled"
       else
         #byebug
-        DisableSP(params[:id])
+        disable_sp(params[:id])
         flash[:notice] = "SP is disabled for project #{@project.identifier}"
       end
     else
       flash[:info] = "Nothing changed"
     end
     redirect_to action: 'show', id: params[:id], status: 302
+  end
+
+  def edit_activities
+    @project = Project.find_by(id: params[:project_id])
+    if @project.nil?
+      flash[:error] = "Project might be deleted or not created yet"
+      redirect_to "/" and return
+    end
+    @enums = @project.legit_activities
+    byebug
+  end
+  def update_activities
+    @project = Project.find_by(id: params[:project_id])
+    if @project.nil?
+      flash[:error] = "Project might be deleted or not created yet"
+      redirect_to "/" and return
+    end
+    @pa = kept_params
+    #byebug
+    @pa.each do |activity_id, hash|
+      if !(hash.has_key?(:active))
+        hash[:active] = 0
+      end
+      #byebug
+      t = @project.create_time_entry_activity_if_needed(TimeEntryActivity.find(activity_id), hash)
+    end
   end
 
   def destroy
@@ -94,5 +127,8 @@ class ProjectsController < ApplicationController
     def permitted_params()
       #byebug
       params.require(:project).permit(:name) if Rails.env.development?
+    end
+    def kept_params()
+      params.require(:activities).permit!
     end
 end

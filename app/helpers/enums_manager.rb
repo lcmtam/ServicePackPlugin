@@ -1,9 +1,9 @@
 module EnumsManager
-	def OverriddenIDs()
+	def overridden_ids()
 		time_entry_activities.where.not(parent_id: nil).pluck(:parent_id)
 	end
 
-	def LegitActivities(included_inactive = true)
+	def legit_activities(included_inactive = true)
 		# magic
 		# https://api.rubyonrails.org/classes/ActiveRecord/Result.html
 		@sql = <<-SQL
@@ -20,31 +20,54 @@ module EnumsManager
 			)
 		SQL
 		@sql << "AND activity = 't'" unless included_inactive
-		#TimeEntryActivity.find_by_sql([@sql1 + @sql2, project_id, project_id])
-		a = [@sql, self.id, self.id ]
-		conn = ActiveRecord::Base.sanitize_sql_array(a)
-		return ActiveRecord::Base.connection.exec_query(conn)
+		TimeEntryActivity.find_by_sql([@sql, id, id])
+		#a = [@sql, self.id, self.id ]
+		#conn = ActiveRecord::Base.send(:sanitize_sql_array, a)
+		#return ActiveRecord::Base.connection.exec_query(conn)
 	end
 
   	# blame strong params
   	def create_time_entry_activity_if_needed(activity, clean_params)
-	    if activity.parent_id.nil? && overridden_activity?(activity, clean_params)
-	      	clean_params[:name] = activity.name # and then some
-	      	clean_params[:parent_id] = activity.id
-	      	abc = self.create.time_entry_activities(clean_params)
-	    else
-	    	abc = activity.update_attributes(clean_params)
-	    end
-
-	  	if abc
-	      return "successful"
-	    else
-	      return "denied"
-	    end
+  		#if activity is shared
+  		#if overridden
+  		#and not malicious
+  		if malicious_override?(activity, clean_params)
+  			logger.debug { "Malicious override " << clean_params.to_s}
+  			return "denied"
+  		end
+ 
+  		if activity.parent_id
+  			activity.update!(clean_params)
+  			 logger.debug {"Mere update " << clean_params.to_s}
+  			return "successful"
+  		else
+  			logger.debug {"More creation " << clean_params.to_s }
+  			if overridden_activity?(activity, clean_params)
+  				acti = self.time_entry_activities.new(clean_params)
+  				acti.name = activity.name
+  				acti.save!
+  				if acti.persisted?
+  					logger.debug {"Nice su\n"}
+  					return "denied"
+  				else
+  					logger.debug {"meh"}
+  					return "successful"
+  				end
+  			else
+  				return "successful"
+  			end
+  		end
   	end
 
   	private
 	  	def overridden_activity?(activity, hash)
-	    	activity.id == hash[:id] && hash[:active] ^ activity.active
+	  		logger.debug { "Hash pid " << (hash.has_key?(:parent_id) ? hash[:parent_id].to_s : "NULL") << " and " << hash[:active].to_s}
+	    	activity.id == hash[:parent_id].to_i && hash[:active] != activity.active.to_s
+  		end
+  		def malicious_override?(activity, hash)
+  			# anything can bind to .shared
+  			# but no rebind or unbind shall pass!
+  			activity.parent_id && (hash[:parent_id] && activity.id != hash[:parent_id].to_i)
+  			# hash[:parent_id] SHALL BE omitted for overridden one.
   		end
 end

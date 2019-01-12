@@ -31,9 +31,12 @@ class AdminController < ApplicationController
 	    if @tea.nil?
 	      flash[:error] = "This activity has been deleted or not existed!"
 	      redirect_to '/'
+	    end
     end
-    def 
-  end
+    def tmp
+    	@enums = TimeEntryActivity.shared
+    end
+
 	private
 		def permitted_params
 			params.require(:time_entry_activity).permit(:name, :active)
