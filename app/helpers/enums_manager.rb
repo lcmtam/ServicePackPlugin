@@ -4,7 +4,6 @@ module EnumsManager
 	end
 
 	def legit_activities(included_inactive = true)
-		# magic
 		# https://api.rubyonrails.org/classes/ActiveRecord/Result.html
 		@sql = <<-SQL
 			SELECT *
