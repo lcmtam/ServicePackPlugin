@@ -1,5 +1,5 @@
 <% content_for :body do %>
-	<% content_tag :h3, @project.name %><br/>
+	<%= content_tag :h3, @project.name %><br/>
 	<div class="table-container">
 		<table>
 			<tr>
@@ -12,7 +12,7 @@
 				<tr>
 					<%= content_tag :td, t.hours %>
 					<%= content_tag :td, t.spent_on.to_s %>
-					<%= content_tag :td, t.TimeEntryActivity.name %>
+					<%= content_tag :td, t.activity.name %>
 					<%= content_tag :td, t.comment.truncate(50, separator: /\s/) %>
 				</tr>
 			<% end %>

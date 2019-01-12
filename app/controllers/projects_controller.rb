@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
       redirect_to "/" and return
     end
     @enums = @project.legit_activities
-    byebug
+    #byebug
   end
   def update_activities
     @project = Project.find_by(id: params[:project_id])
@@ -99,14 +99,15 @@ class ProjectsController < ApplicationController
       redirect_to "/" and return
     end
     @pa = kept_params
+    count = 0
     #byebug
     @pa.each do |activity_id, hash|
-      if !(hash.has_key?(:active))
-        hash[:active] = 0
-      end
       #byebug
       t = @project.create_time_entry_activity_if_needed(TimeEntryActivity.find(activity_id), hash)
+      count += 1 if t == "successful"
     end
+    flash[:success] = "#{count} activities updated successfully"
+    redirect_to @project
   end
 
   def destroy

@@ -1,11 +1,11 @@
 <% content_for :body do %>
 	<br/>
-	<%= link_to 'Back to Project', project_path(@te.id) %>
+	<%= link_to 'Back to Project', project_path(@te.project_id) %>
 <pre>
 	Spent: <%= @te.hours %> hour(s)
 	Logged at: <%= @te.spent_on.to_s %>
 	Task: <%= @w.name %>
-	Comment: <%= @te.comment %>
+	Comment: <%= @te.comment.truncate(50, separator: /\s/) %>
 </pre>
 
 <% end %>

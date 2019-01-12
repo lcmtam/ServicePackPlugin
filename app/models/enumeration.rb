@@ -3,9 +3,9 @@ class Enumeration < ApplicationRecord
   # validates :project, allow_blank: true # validation of belongs_to is optional
   validates :name, presence: true, uniqueness: {scope: :project, message: "must be unique per project"}, length: {maximum: 30, message: "Name too long! 30 chars max"}
   validate :activity_must_have_both_parent_and_project_id_or_neither
-  # validate :overridden_activity_must_have_no_parent
+  # validate :must_not_override_project_activity
 
-  # this is OP
+  # this is OP class
   
   def in_use?
     nil # Enumeration is an abstract class

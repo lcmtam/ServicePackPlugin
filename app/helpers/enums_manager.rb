@@ -28,38 +28,44 @@ module EnumsManager
 
   	# blame strong params
   	def create_time_entry_activity_if_needed(activity, clean_params)
-  		#if activity is shared
-  		#if overridden
-  		#and not malicious
-  		if malicious_override?(activity, clean_params)
-  			logger.debug { "Malicious override " << clean_params.to_s}
-  			return "denied"
-  		end
- 
-  		if activity.parent_id
-  			activity.update!(clean_params)
-  			 logger.debug {"Mere update " << clean_params.to_s}
-  			return "successful"
-  		else
-  			logger.debug {"More creation " << clean_params.to_s }
-  			if overridden_activity?(activity, clean_params)
-  				acti = self.time_entry_activities.new(clean_params)
-  				acti.name = activity.name
-  				acti.save!
-  				if acti.persisted?
-  					logger.debug {"Nice su\n"}
-  					return "denied"
-  				else
-  					logger.debug {"meh"}
-  					return "successful"
-  				end
-  			else
-  				return "successful"
-  			end
-  		end
+        msg = wrapped_magic_do_not_touch(activity, clean_params)
+        if !msg.is_a?(String)
+            time_entries.where(activity_id: activity.id)
+            .update_all(activity_id: msg)
+            msg = "successful"
+        end
+        return msg
   	end
 
   	private
+      def wrapped_magic_do_not_touch(activity, clean_params)
+        if malicious_override?(activity, clean_params)
+          logger.debug { "Malicious override " << clean_params.to_s}
+          return "denied"
+        end
+   
+        if activity.parent_id
+          activity.update!(clean_params)
+           logger.debug {"Mere update " << clean_params.to_s}
+          return "successful"
+        else
+          logger.debug {"More creation " << clean_params.to_s }
+          if overridden_activity?(activity, clean_params)
+            acti = self.time_entry_activities.new(clean_params)
+            acti.name = activity.name
+            acti.save!
+            if acti.persisted?
+              logger.debug {"Nice"}
+              return acti.id
+            else
+              logger.debug {"meh"}
+              return "successful"
+            end
+          else
+            return "successful"
+          end
+        end
+      end
 	  	def overridden_activity?(activity, hash)
 	  		logger.debug { "Hash pid " << (hash.has_key?(:parent_id) ? hash[:parent_id].to_s : "NULL") << " and " << hash[:active].to_s}
 	    	activity.id == hash[:parent_id].to_i && hash[:active] != activity.active.to_s

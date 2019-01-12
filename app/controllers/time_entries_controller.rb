@@ -54,19 +54,19 @@ class TimeEntriesController < ApplicationController
       redirect_to "/" and return
     else
       @w = TimeEntryActivity.select(:name).find_by(id: @te.activity_id)
+      #byebug
     end
-    #byebug
   end
 
   def index
     @project = Project.find_by(id: params[:project_id])
-    ##byebug
+    #byebug
     if @project.nil?
       ##byebug
       flash[:error] = "Project might be deleted or not created yet"
       redirect_to "/"
     else
-      @te = TimeEntry.includes(:TimeEntryActivity) # like join but lazy-load the joined one
+      @te = TimeEntry.includes(:activity) # like join but lazy-load the joined one
       @te = @te.where(project_id: params[:project_id]).order(:spent_on)
     end
   end
@@ -78,7 +78,7 @@ class TimeEntriesController < ApplicationController
       flash.now[:error] = "Time entry not found"
       redirect_to "/" and return
     end
-    @enums = TimeEntryActivity.project(@te.project_id).active
+    @enums = @project.legit_activities
   end
 
   def update

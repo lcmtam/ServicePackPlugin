@@ -27,9 +27,13 @@ class TimeEntryActivitiesController < ApplicationController
     @pa[:project_id] = params[:project_id]
     #byebug
     @tea = TimeEntryActivity.new(@pa)
-    if @tea.save!
+    if @tea.save
       flash[:success] = "Activity created successfully"
-      redirect_to controller: 'projects', action: 'show', id: params[:project_id], status: 200
+        if !@tea.shared?
+          redirect_to controller: 'projects', action: 'show', id: params[:project_id], status: 307
+        else
+          redirect_to '/'
+        end
     else
       flash.now[:error] = @tea.errors[:base]
       render 'new', id: params[:project_id]
@@ -50,15 +54,23 @@ class TimeEntryActivitiesController < ApplicationController
   def update
     @tea = TimeEntryActivity.find_by(id: params[:id])
     @pa = permitted_params
+    is_shared = @tea.shared?
     @pa[:project_id] = params[:project_id]
-    @tea.active = params[:active]
+    # @tea.active = params[:active]
     if @tea.nil?
       flash[:error] = "This activity has been deleted or not existed!"
       redirect_to '/'
     end
+    byebug
+    @tea.update(@pa)
     if @tea.save
       flash[:success] = "Activity updated successfully"
-      redirect_to controller: 'projects', action: 'show', id: params[:project_id], status: 200
+      byebug
+        if !is_shared
+          redirect_to controller: 'projects', action: 'show', id: params[:project_id], status: 307
+        else
+          redirect_to '/admin/index'
+        end
     else
       flash.now[:error] = @tea.errors[:base]
       render 'edit', id: params[:id]

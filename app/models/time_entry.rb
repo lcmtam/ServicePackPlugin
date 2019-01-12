@@ -1,5 +1,5 @@
 class TimeEntry < ApplicationRecord
-  belongs_to :TimeEntryActivity, inverse_of: :time_entries,foreign_key: 'activity_id'
+  belongs_to :activity, class_name: "TimeEntryActivity", inverse_of: :time_entries,foreign_key: 'activity_id'
   # belongs_to :TimeEntryActivity, -> {where(enumerations: {type: 'TimeEntryActivity'}).includes(:name) }, inverse_of: :TimeEntries,foreign_key: 'activity_id'
   belongs_to :project, inverse_of: :time_entries
 

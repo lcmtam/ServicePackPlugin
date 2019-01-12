@@ -12,7 +12,7 @@
           </tr>
           <% @enums.each do |t|%>
             <tr>
-              <td><%= t.name %></td>
+              <td><%= link_to t.name, edit_time_entry_activity_path(t.id) %></td>
               <td><%= (t.active ? "&#x2713" : "<strong>X</strong>").html_safe %></td>
               <td>config here! &nbsp;</td> <!-- delete columns -->
             </tr>
