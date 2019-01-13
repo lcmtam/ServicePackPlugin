@@ -5,6 +5,9 @@ module EnumsManager
 
 	def legit_activities(included_inactive = true)
 		# https://api.rubyonrails.org/classes/ActiveRecord/Result.html
+    # get every fields as this will be used in many contexts.
+    # No NULL in a IN clause - NULL is supposed to act weird.
+
 		@sql = <<-SQL
 			SELECT *
 			FROM enumerations
@@ -12,13 +15,15 @@ module EnumsManager
 			OR project_id IS NULL)
 			AND type = 'TimeEntryActivity'
 			AND id NOT IN (
-				SELECT t2.id
-				FROM enumerations t1
-				INNER JOIN enumerations t2 ON t1.parent_id = t2.id
-				WHERE t1.project_id = ?
+				SELECT parent_id
+				FROM enumerations
+				WHERE parent_id IS NOT NULL
+        AND t1.project_id = ?
+        AND type = 'TimeEntryActivity'
 			)
 		SQL
 		@sql << "AND activity = 't'" unless included_inactive
+    # this #[class.name}.find_by_sql packs the results in Rails renderable forms.
 		TimeEntryActivity.find_by_sql([@sql, id, id])
 		#a = [@sql, self.id, self.id ]
 		#conn = ActiveRecord::Base.send(:sanitize_sql_array, a)
@@ -27,6 +32,7 @@ module EnumsManager
 
   	# blame strong params
   	def create_time_entry_activity_if_needed(activity, clean_params)
+      # return "successful" if records are changed/saved
         msg = wrapped_magic_do_not_touch(activity, clean_params)
         if !msg.is_a?(String)
             time_entries.where(activity_id: activity.id)
@@ -58,7 +64,7 @@ module EnumsManager
               return acti.id
             else
               logger.debug {"meh"}
-              return "successful"
+              return "denied"
             end
           else
             return "successful"
