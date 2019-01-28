@@ -18,7 +18,7 @@ module EnumsManager
 				SELECT parent_id
 				FROM enumerations
 				WHERE parent_id IS NOT NULL
-        AND t1.project_id = ?
+        AND project_id = ?
         AND type = 'TimeEntryActivity'
 			)
 		SQL

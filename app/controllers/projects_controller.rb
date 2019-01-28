@@ -1,7 +1,6 @@
 #require File.new('/develop/doit/app/helpers/module_assignment_helper.rb')
 
 class ProjectsController < ApplicationController
-  #autoload :ModuleAssignmentHelper, '/helpers/module_assignment_helper.rb'
   include ModuleAssignmentHelper
   layout 'project', only: [:show]
   def new
@@ -16,14 +15,6 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project #{@project.name} successfully created"
       #byebug
       if params[:createSP]
-        # redirect_to "ServicePack#new", status: 200
-=begin
-        @vis = ModuleAssignment.new
-        @vis.project_id = @project.id
-
-        #byebug
-        @v = @vis.save
-=end
         enable_sp(@project.id)
         flash[:notice] = "This project also use Service Pack"
       end
@@ -104,7 +95,7 @@ class ProjectsController < ApplicationController
     @pa.each do |activity_id, hash|
       #byebug
       t = @project.create_time_entry_activity_if_needed(TimeEntryActivity.find(activity_id), hash)
-      count += 1 if t == "successful"
+      count += 1 if t == :successful
     end
     flash[:success] = "#{count} activities updated successfully"
     redirect_to @project
