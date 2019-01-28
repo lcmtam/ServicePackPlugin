@@ -34,10 +34,10 @@ module EnumsManager
   	def create_time_entry_activity_if_needed(activity, clean_params)
       # return "successful" if records are changed/saved
         msg = wrapped_magic_do_not_touch(activity, clean_params)
-        if !msg.is_a?(String)
+        if !msg.is_a?(Symbol)
             time_entries.where(activity_id: activity.id)
             .update_all(activity_id: msg)
-            msg = "successful"
+            msg = :successful
         end
         return msg
   	end
@@ -46,13 +46,13 @@ module EnumsManager
       def wrapped_magic_do_not_touch(activity, clean_params)
         if malicious_override?(activity, clean_params)
           logger.debug { "Malicious override " << clean_params.to_s}
-          return "denied"
+          return :denied
         end
    
         if activity.parent_id
           activity.update!(clean_params)
            logger.debug {"Mere update " << clean_params.to_s}
-          return "successful"
+          return :successful
         else
           logger.debug {"More creation " << clean_params.to_s }
           if overridden_activity?(activity, clean_params)
@@ -64,10 +64,10 @@ module EnumsManager
               return acti.id
             else
               logger.debug {"meh"}
-              return "denied"
+              return :denied
             end
           else
-            return "successful"
+            return :successful
           end
         end
       end
