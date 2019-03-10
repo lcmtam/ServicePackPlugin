@@ -3,7 +3,7 @@ module EnumsManager
 		time_entry_activities.where.not(parent_id: nil).pluck(:parent_id)
 	end
 
-	def legit_activities(included_inactive = true)
+	def leg_acts(included_inactive = true)
 		# https://api.rubyonrails.org/classes/ActiveRecord/Result.html
     # get every fields as this will be used in many contexts.
     # No NULL in a IN clause - NULL is supposed to act weird.

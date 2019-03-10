@@ -11,7 +11,7 @@ class TimeEntriesController < ApplicationController
       @time_entry = TimeEntry.new(project_id: @project.id)
       # @enums = TimeEntryActivity.project(params[:project_id]).active
       # NEW UPDATE
-      @enums = @project.legit_activities
+      @enums = @project.leg_acts
       if @enums.empty?
         flash[:error] = "No activity is set!"
         redirect_to new_project_time_entry_activity_path(@project.id)
@@ -78,7 +78,7 @@ class TimeEntriesController < ApplicationController
       flash.now[:error] = "Time entry not found"
       redirect_to "/" and return
     end
-    @enums = @project.legit_activities
+    @enums = @project.leg_acts
   end
 
   def update

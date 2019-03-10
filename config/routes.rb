@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
     #default routes
-  get '/begone', to: "boots#begone"
-  get '/', to: "boots#dummy"
-  root "boots#dummy"
+  get '/begone', to: 'boots#begone'
+  get '/', to: 'boots#dummy'
+  root 'boots#dummy'
   
   get 'projects/filterSP', to: 'projects#filterSP'
   get 'admin/', to: 'admin#opis'
@@ -25,5 +25,5 @@ Rails.application.routes.draw do
   resources :service_packs, only: [:new, :create, :show]
   resources :sp_assignments, only: [:new, :create]
   
-
+  mount API::V1::Base, at: '/'
 end

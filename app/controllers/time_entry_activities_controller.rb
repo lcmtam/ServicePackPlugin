@@ -1,12 +1,6 @@
 class TimeEntryActivitiesController < ApplicationController
   def new
-    # check: This is necessary for the #create action. Do not delete.
-    # nah. Check your OP installation again.
-    # UGH: there are TWO controllers necessary BRO!
-    # systemwide
-    # project-wise
-    # time to code this!
-
+    # two controllers
     @project = Project.find_by(id: params[:project_id])
     if @project.nil?
       flash[:error] = "This project has been deleted or not existed!"

@@ -30,7 +30,6 @@ class ProjectsController < ApplicationController
   end
 
   def filterSP
-    #@projects = ProjectsHasActivatedSP
     @projects = projects_has_activated_sp
   end
 
@@ -80,7 +79,7 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project might be deleted or not created yet"
       redirect_to "/" and return
     end
-    @enums = @project.legit_activities
+    @enums = @project.leg_acts
     #byebug
   end
   def update_activities
